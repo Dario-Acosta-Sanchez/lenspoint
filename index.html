@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>LensPoint — Óptica de barrio en Córdoba</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  *{font-family:'Inter',sans-serif}
+  body{background:#0a0a0a;color:#f0f0f0}
+  :root{--accent:#06b6d4;--accent2:#0891b2}
+  .glass{background:rgba(255,255,255,.04);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.08)}
+  .accent{color:var(--accent)}
+  .accent-bg{background:var(--accent)}
+  .btn-primary{background:var(--accent);color:#000;font-weight:700;transition:all .2s;border-radius:12px;padding:14px 28px;border:none;cursor:pointer}
+  .btn-primary:hover{background:var(--accent2);transform:translateY(-2px);box-shadow:0 10px 30px -8px rgba(6,182,212,.6)}
+  .card{background:#111;border:1px solid #1f1f1f;border-radius:20px;transition:all .3s}
+  .card:hover{border-color:var(--accent);transform:translateY(-4px)}
+  .timeslot{border:1px solid #2a2a2a;border-radius:8px;padding:8px 14px;cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;background:#111}
+  .timeslot:hover,.timeslot.sel{background:var(--accent);color:#000;border-color:var(--accent)}
+  .timeslot.disabled{opacity:.35;cursor:not-allowed;text-decoration:line-through}
+  .timeslot.disabled:hover{background:#111;color:#f0f0f0;border-color:#2a2a2a}
+  .quiz-opt{border:1px solid #2a2a2a;border-radius:14px;padding:16px 18px;cursor:pointer;transition:all .2s;background:#111;text-align:left}
+  .quiz-opt:hover{border-color:var(--accent);transform:translateY(-2px)}
+  .quiz-opt.sel{background:rgba(6,182,212,.12);border-color:var(--accent)}
+  .day-card{border:1px solid #2a2a2a;border-radius:14px;padding:14px 10px;cursor:pointer;transition:all .2s;background:#111;text-align:center}
+  .day-card:hover{border-color:var(--accent)}
+  .day-card.sel{background:rgba(6,182,212,.12);border-color:var(--accent)}
+  @keyframes pulse-dot{0%{box-shadow:0 0 0 0 rgba(34,197,94,.7)}70%{box-shadow:0 0 0 8px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
+  .pulse{animation:pulse-dot 2s infinite;border-radius:9999px}
+  .fade-in{animation:fadeIn .5s ease both}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .glasses-frame{display:flex;align-items:center;justify-content:center;gap:8px}
+  .lens{border-radius:999px;border:6px solid;display:inline-block}
+  .bridge{height:6px;width:18px}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="fixed top-0 inset-x-0 z-50 glass">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl accent-bg flex items-center justify-center text-black font-extrabold text-lg">LP</div>
+      <span class="font-bold text-lg tracking-tight">LensPoint</span>
+    </div>
+    <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-300">
+      <a href="#quiz" class="hover:text-white transition">Encuentra tu montura</a>
+      <a href="#reserva" class="hover:text-white transition">Reservar revisión</a>
+      <a href="#catalogo" class="hover:text-white transition">Servicios</a>
+      <a href="#opiniones" class="hover:text-white transition">Opiniones</a>
+    </div>
+    <a href="#reserva" class="btn-primary text-sm !py-2.5 !px-5">Pedir cita</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="pt-40 pb-24 px-6">
+  <div class="max-w-5xl mx-auto text-center">
+    <span class="inline-block glass rounded-full px-4 py-1.5 text-xs font-semibold tracking-wide text-cyan-300 mb-6">👓 Óptica de barrio · Centro de Córdoba</span>
+    <h1 class="text-4xl md:text-6xl font-extrabold leading-tight tracking-tight mb-6">
+      Tu montura ideal y tu revisión visual, <span class="accent">sin esperar semanas</span>
+    </h1>
+    <p class="text-lg text-gray-400 max-w-2xl mx-auto mb-10">
+      En LensPoint te ayudamos a encontrar las gafas que de verdad encajan contigo y te damos cita para tu revisión exprés esta misma semana. Sin colas, sin esperas, con trato de barrio.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center mb-14">
+      <a href="#quiz" class="btn-primary">Descubre tu montura ideal →</a>
+      <a href="#reserva" class="glass rounded-xl px-7 py-3.5 font-semibold hover:bg-white/10 transition">Reservar revisión visual</a>
+    </div>
+    <div class="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-sm text-gray-400">
+      <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 bg-green-500 pulse"></span> Citas disponibles esta semana</div>
+      <div><span class="font-bold text-white">+1.200</span> revisiones realizadas en 2025</div>
+      <div><span class="font-bold text-white">4,9/5</span> valoración media de clientes</div>
+      <div><span class="font-bold text-white">15 min</span> de media para tu revisión exprés</div>
+    </div>
+  </div>
+</header>
+
+<!-- FEATURE ESTRELLA: QUIZ -->
+<section id="quiz" class="px-6 py-20">
+  <div class="max-w-4xl mx-auto">
+    <div class="text-center mb-12">
+      <span class="accent text-sm font-bold tracking-widest uppercase">Feature estrella</span>
+      <h2 class="text-3xl md:text-4xl font-extrabold mt-2 mb-4">Encuentra tu montura ideal en 3 preguntas</h2>
+      <p class="text-gray-400 max-w-xl mx-auto">Responde y te mostramos los estilos de montura que mejor encajan contigo. En menos de un minuto.</p>
+    </div>
+
+    <div class="card p-8 md:p-10">
+      <!-- progreso -->
+      <div class="flex items-center gap-2 mb-8" id="progressBar">
+        <div class="h-1.5 flex-1 rounded-full bg-[#222]"><div class="h-1.5 rounded-full accent-bg transition-all" style="width:0%" id="prog1"></div></div>
+        <div class="h-1.5 flex-1 rounded-full bg-[#222]"><div class="h-1.5 rounded-full accent-bg transition-all" style="width:0%" id="prog2"></div></div>
+        <div class="h-1.5 flex-1 rounded-full bg-[#222]"><div class="h-1.5 rounded-full accent-bg transition-all" style="width:0%" id="prog3"></div></div>
+      </div>
+
+      <!-- Pregunta 1 -->
+      <div class="quiz-step" data-step="1">
+        <h3 class="text-xl font-bold mb-1">1. ¿Cómo es la forma de tu cara?</h3>
+        <p class="text-gray-500 text-sm mb-6">Esto nos ayuda a sugerirte monturas que equilibren tus rasgos.</p>
+        <div class="grid sm:grid-cols-2 gap-3">
+          <button class="quiz-opt" data-q="1" data-v="Ovalada">🥚 Ovalada</button>
+          <button class="quiz-opt" data-q="1" data-v="Cuadrada">⬛ Cuadrada</button>
+          <button class="quiz-opt" data-q="1" data-v="Redonda">⭕ Redonda</button>
+          <button class="quiz-opt" data-q="1" data-v="Corazón">💟 Corazón</button>
+        </div>
+      </div>
+
+      <!-- Pregunta 2 -->
+      <div class="quiz-step hidden" data-step="2">
+        <h3 class="text-xl font-bold mb-1">2. ¿Qué estilo prefieres?</h3>
+        <p class="text-gray-500 text-sm mb-6">No hay respuestas malas, solo monturas que aún no has probado.</p>
+        <div class="grid sm:grid-cols-2 gap-3">
+          <button class="quiz-opt" data-q="2" data-v="Clásico">🎩 Clásico</button>
+          <button class="quiz-opt" data-q="2" data-v="Moderno">✨ Moderno</button>
+          <button class="quiz-opt" data-q="2" data-v="Atrevido">🔥 Atrevido</button>
+          <button class="quiz-opt" data-q="2" data-v="Minimalista">▫️ Minimalista</button>
+        </div>
+        <button class="mt-6 text-sm text-gray-500 hover:text-white transition" onclick="goToStep(1)">← Volver</button>
+      </div>
+
+      <!-- Pregunta 3 -->
+      <div class="quiz-step hidden" data-step="3">
+        <h3 class="text-xl font-bold mb-1">3. ¿Para qué las usarás más?</h3>
+        <p class="text-gray-500 text-sm mb-6">Así te recomendamos también el tipo de lente más adecuado.</p>
+        <div class="grid sm:grid-cols-2 gap-3">
+          <button class="quiz-opt" data-q="3" data-v="Oficina y pantallas">💻 Oficina y pantallas</button>
+          <button class="quiz-opt" data-q="3" data-v="Lectura">📖 Lectura</button>
+          <button class="quiz-opt" data-q="3" data-v="Conducir">🚗 Conducir</button>
+          <button class="quiz-opt" data-q="3" data-v="Sol y aire libre">🌤️ Sol y aire libre</button>
+        </div>
+        <button class="mt-6 text-sm text-gray-500 hover:text-white transition" onclick="goToStep(2)">← Volver</button>
+      </div>
+
+      <!-- Resultado -->
+      <div class="quiz-step hidden" data-step="result">
+        <div class="text-center mb-8">
+          <span class="text-4xl">🎉</span>
+          <h3 class="text-2xl font-extrabold mt-3 mb-2">Tu combinación ideal de monturas</h3>
+          <p class="text-gray-400 text-sm" id="resultSummary"></p>
+        </div>
+        <div id="resultCards" class="grid sm:grid-cols-3 gap-5"></div>
+        <div class="text-center mt-9">
+          <button class="btn-primary" onclick="document.getElementById('reserva').scrollIntoView({behavior:'smooth'})">Reservar revisión y probarlas →</button>
+          <button class="block mx-auto mt-4 text-sm text-gray-500 hover:text-white transition" onclick="resetQuiz()">↺ Repetir el test</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESERVA -->
+<section id="reserva" class="px-6 py-20 bg-[#0d0d0d] border-y border-[#1a1a1a]">
+  <div class="max-w-4xl mx-auto">
+    <div class="text-center mb-12">
+      <span class="accent text-sm font-bold tracking-widest uppercase">Reserva online</span>
+      <h2 class="text-3xl md:text-4xl font-extrabold mt-2 mb-4">Pide tu revisión visual exprés</h2>
+      <p class="text-gray-400 max-w-xl mx-auto">Elige el día y la hora que mejor te vengan. La revisión dura unos 15 minutos y es gratuita si decides comprar tus gafas con nosotros.</p>
+    </div>
+
+    <div class="card p-8 md:p-10">
+      <div id="bookingForm">
+        <h3 class="font-bold mb-4 text-sm uppercase tracking-wide text-gray-400">1. Elige el día</h3>
+        <div id="dayPicker" class="grid grid-cols-3 sm:grid-cols-6 gap-3 mb-8"></div>
+
+        <h3 class="font-bold mb-4 text-sm uppercase tracking-wide text-gray-400">2. Elige la franja horaria</h3>
+        <div id="timePicker" class="flex flex-wrap gap-3 mb-8"></div>
+
+        <button id="confirmBtn" class="btn-primary w-full sm:w-auto opacity-50 cursor-not-allowed" disabled onclick="confirmBooking()">Confirmar cita</button>
+      </div>
+
+      <div id="bookingConfirmed" class="hidden text-center py-6 fade-in">
+        <span class="text-4xl">✅</span>
+        <h3 class="text-2xl font-extrabold mt-3 mb-2">¡Cita confirmada!</h3>
+        <p class="text-gray-300 mb-1">Te esperamos el <span class="accent font-semibold" id="confDay"></span> a las <span class="accent font-semibold" id="confTime"></span>.</p>
+        <p class="text-gray-500 text-sm max-w-md mx-auto mt-3">Trae tus gafas actuales si quieres comparar tu graduación, y tu última receta si la tienes a mano. Si necesitas cambiar la hora, escríbenos respondiendo al correo de confirmación.</p>
+        <button class="mt-6 text-sm text-gray-500 hover:text-white transition" onclick="resetBooking()">↺ Reservar otra cita</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CATALOGO / SERVICIOS -->
+<section id="catalogo" class="px-6 py-20">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-12">
+      <span class="accent text-sm font-bold tracking-widest uppercase">Lo que hacemos</span>
+      <h2 class="text-3xl md:text-4xl font-extrabold mt-2">Todo lo que necesitas para ver mejor</h2>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="card p-7">
+        <div class="text-3xl mb-4">🔍</div>
+        <h3 class="font-bold text-lg mb-2">Revisión visual exprés</h3>
+        <p class="text-gray-400 text-sm">Diagnóstico completo en 15 minutos, con cita el mismo día o al siguiente.</p>
+      </div>
+      <div class="card p-7">
+        <div class="text-3xl mb-4">👓</div>
+        <h3 class="font-bold text-lg mb-2">Asesoramiento de monturas</h3>
+        <p class="text-gray-400 text-sm">Te ayudamos a elegir la montura que mejor encaja con tu cara y tu estilo de vida.</p>
+      </div>
+      <div class="card p-7">
+        <div class="text-3xl mb-4">🌞</div>
+        <h3 class="font-bold text-lg mb-2">Gafas de sol graduadas</h3>
+        <p class="text-gray-400 text-sm">Protección UV y tu graduación exacta, en monturas pensadas para el día a día.</p>
+      </div>
+      <div class="card p-7">
+        <div class="text-3xl mb-4">🧒</div>
+        <h3 class="font-bold text-lg mb-2">Óptica infantil</h3>
+        <p class="text-gray-400 text-sm">Revisiones y monturas resistentes pensadas para los más pequeños de la casa.</p>
+      </div>
+      <div class="card p-7">
+        <div class="text-3xl mb-4">🛠️</div>
+        <h3 class="font-bold text-lg mb-2">Ajustes y reparaciones</h3>
+        <p class="text-gray-400 text-sm">Pasa por la tienda y te ajustamos o arreglamos tus gafas mientras esperas, sin coste.</p>
+      </div>
+      <div class="card p-7">
+        <div class="text-3xl mb-4">💧</div>
+        <h3 class="font-bold text-lg mb-2">Lentillas y adaptación</h3>
+        <p class="text-gray-400 text-sm">Te enseñamos a ponerlas y quitarlas, y te recomendamos las que mejor te van.</p>
+      </div>
+      <div class="card p-7">
+        <div class="text-3xl mb-4">💻</div>
+        <h3 class="font-bold text-lg mb-2">Lentes para pantallas</h3>
+        <p class="text-gray-400 text-sm">Filtro de luz azul y descanso visual para quienes pasan el día delante del ordenador.</p>
+      </div>
+      <div class="card p-7">
+        <div class="text-3xl mb-4">📦</div>
+        <h3 class="font-bold text-lg mb-2">Recogida en 48-72h</h3>
+        <p class="text-gray-400 text-sm">Tus gafas nuevas listas en pocos días, con aviso por SMS cuando estén disponibles.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRUEBA SOCIAL -->
+<section id="opiniones" class="px-6 py-20 bg-[#0d0d0d] border-y border-[#1a1a1a]">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-12">
+      <span class="accent text-sm font-bold tracking-widest uppercase">Confían en nosotros</span>
+      <h2 class="text-3xl md:text-4xl font-extrabold mt-2">Vecinos de Córdoba que ya nos conocen</h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6 mb-14">
+      <div class="card p-7">
+        <div class="accent text-lg mb-3">★★★★★</div>
+        <p class="text-gray-300 text-sm mb-4">"Pedí cita un lunes y me atendieron el miércoles. El test de monturas acertó de lleno, al final me llevé una de las que me recomendaron."</p>
+        <p class="text-sm font-semibold">— Marta R., Ciudad Jardín</p>
+      </div>
+      <div class="card p-7">
+        <div class="accent text-lg mb-3">★★★★★</div>
+        <p class="text-gray-300 text-sm mb-4">"Llevaba años con la misma graduación sin revisarla. La revisión fue rapidísima y me explicaron todo con calma, sin prisas de venta."</p>
+        <p class="text-sm font-semibold">— Antonio J., Centro</p>
+      </div>
+      <div class="card p-7">
+        <div class="accent text-lg mb-3">★★★★★</div>
+        <p class="text-gray-300 text-sm mb-4">"Llevé a mi hija a su primera revisión y la trataron genial. Las gafas llegaron en menos de tres días, tal y como dijeron."</p>
+        <p class="text-sm font-semibold">— Lucía F., Fuensanta</p>
+      </div>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+      <div><div class="text-3xl md:text-4xl font-extrabold accent">12&nbsp;años</div><div class="text-gray-500 text-sm mt-1">en el barrio</div></div>
+      <div><div class="text-3xl md:text-4xl font-extrabold accent">+1.200</div><div class="text-gray-500 text-sm mt-1">revisiones al año</div></div>
+      <div><div class="text-3xl md:text-4xl font-extrabold accent">15&nbsp;min</div><div class="text-gray-500 text-sm mt-1">duración media</div></div>
+      <div><div class="text-3xl md:text-4xl font-extrabold accent">4,9/5</div><div class="text-gray-500 text-sm mt-1">valoración media</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="px-6 py-24">
+  <div class="max-w-3xl mx-auto text-center card p-12">
+    <h2 class="text-3xl md:text-4xl font-extrabold mb-4">¿Vemos juntos cuál es tu montura ideal?</h2>
+    <p class="text-gray-400 mb-8">Haz el test, reserva tu revisión y ven a probarte las monturas en persona. Estamos a un paseo del centro de Córdoba.</p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="#quiz" class="btn-primary">Hacer el test de estilo</a>
+      <a href="#reserva" class="glass rounded-xl px-7 py-3.5 font-semibold hover:bg-white/10 transition">Reservar mi revisión</a>
+    </div>
+  </div>
+</section>
+
+<footer class="px-6 py-10 border-t border-[#1a1a1a]">
+  <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg accent-bg flex items-center justify-center text-black font-extrabold text-sm">LP</div>
+      <span>LensPoint · Óptica de barrio · Córdoba</span>
+    </div>
+    <p>© 2026 LensPoint. Demo de sitio web creada por <span class="text-gray-300">PuntoZero</span>.</p>
+  </div>
+</footer>
+
+<script>
+  // ---------- QUIZ ----------
+  const answers = {1:null, 2:null, 3:null};
+
+  document.querySelectorAll('.quiz-opt').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const q = btn.dataset.q;
+      const v = btn.dataset.v;
+      answers[q] = v;
+      document.querySelectorAll(`.quiz-opt[data-q="${q}"]`).forEach(b=>b.classList.remove('sel'));
+      btn.classList.add('sel');
+      setTimeout(()=>{
+        if(q == '1') goToStep(2);
+        else if(q == '2') goToStep(3);
+        else if(q == '3') showResult();
+      }, 250);
+    });
+  });
+
+  function goToStep(n){
+    document.querySelectorAll('.quiz-step').forEach(s=>s.classList.add('hidden'));
+    document.querySelector(`.quiz-step[data-step="${n}"]`).classList.remove('hidden');
+    for(let i=1;i<=3;i++){
+      document.getElementById('prog'+i).style.width = (i <= n ? 100 : (i < n ? 100 : (i === n ? 100 : 0))) + '%';
+    }
+    // progreso real: pregunta n significa que n-1 ya completadas + actual en curso
+    document.getElementById('prog1').style.width = (n>=1 ? 100 : 0)+'%';
+    document.getElementById('prog2').style.width = (n>=2 ? 100 : 0)+'%';
+    document.getElementById('prog3').style.width = (n>=3 ? 100 : 0)+'%';
+  }
+
+  function resetQuiz(){
+    answers[1]=answers[2]=answers[3]=null;
+    document.querySelectorAll('.quiz-opt').forEach(b=>b.classList.remove('sel'));
+    document.getElementById('prog1').style.width='0%';
+    document.getElementById('prog2').style.width='0%';
+    document.getElementById('prog3').style.width='0%';
+    goToStep(1);
+  }
+
+  // recetas de recomendación según combinación de respuestas
+  const frameStyles = {
+    'Ovalada': { name:'Montura cuadrada de pasta', color:'#06b6d4', shape:'square', why:'Las líneas rectas aportan estructura y equilibran la suavidad de un rostro ovalado.' },
+    'Cuadrada': { name:'Montura redonda fina', color:'#22c55e', shape:'round', why:'Las curvas suavizan los ángulos marcados y dan un aire más relajado al rostro.' },
+    'Redonda': { name:'Montura rectangular angulosa', color:'#f97316', shape:'rect', why:'Aporta definición y alarga visualmente las facciones redondeadas.' },
+    'Corazón': { name:'Montura de pasta tipo gota', color:'#a855f7', shape:'oval', why:'Equilibra una frente más ancha con una base más estrecha en la parte inferior.' }
+  };
+  const vibeStyles = {
+    'Clásico': { name:'Montura de pasta en carey', color:'#92400e', shape:'rect', why:'Un acabado atemporal que combina con cualquier estilo de vestir, día tras día.' },
+    'Moderno': { name:'Montura metálica fina geométrica', color:'#06b6d4', shape:'square', why:'Líneas limpias y minimalistas que dan un aire actual y cuidado.' },
+    'Atrevido': { name:'Montura oversize con color', color:'#ec4899', shape:'oval', why:'Un punto llamativo que se convierte en el complemento estrella de tu look.' },
+    'Minimalista': { name:'Montura al aire ultraligera', color:'#9ca3af', shape:'round', why:'Apenas se nota que la llevas puesta: discreción y comodidad ante todo.' }
+  };
+  const useStyles = {
+    'Oficina y pantallas': { name:'Montura ligera con lente antiluz azul', color:'#06b6d4', shape:'square', why:'Pensada para largas jornadas frente al ordenador, reduce la fatiga visual.' },
+    'Lectura': { name:'Montura semi al aire para lectura', color:'#22c55e', shape:'oval', why:'Cómoda para sesiones largas y fácil de subir y bajar la mirada sin esfuerzo.' },
+    'Conducir': { name:'Montura envolvente con tratamiento antirreflejante', color:'#f97316', shape:'rect', why:'Mejora el contraste y reduce los reflejos en carretera, de día y de noche.' },
+    'Sol y aire libre': { name:'Montura de sol graduada polarizada', color:'#eab308', shape:'round', why:'Protección UV real con tu graduación exacta para tus planes al aire libre.' }
+  };
+
+  function drawFrame(style){
+    const shape = style.shape;
+    let radius = '50%';
+    let w = 64, h = 50;
+    if(shape === 'square'){ radius='14px'; w=58; h=46; }
+    else if(shape === 'round'){ radius='50%'; w=52; h=52; }
+    else if(shape === 'rect'){ radius='8px'; w=68; h=38; }
+    else if(shape === 'oval'){ radius='50% / 60%'; w=62; h=46; }
+    return `
+      <div class="glasses-frame my-2">
+        <span class="lens" style="border-color:${style.color};width:${w}px;height:${h}px;border-radius:${radius}"></span>
+        <span class="bridge" style="background:${style.color}"></span>
+        <span class="lens" style="border-color:${style.color};width:${w}px;height:${h}px;border-radius:${radius}"></span>
+      </div>`;
+  }
+
+  function showResult(){
+    goToStep(3);
+    document.querySelectorAll('.quiz-step').forEach(s=>s.classList.add('hidden'));
+    const resultEl = document.querySelector('.quiz-step[data-step="result"]');
+    resultEl.classList.remove('hidden');
+    resultEl.classList.add('fade-in');
+
+    document.getElementById('resultSummary').textContent =
+      `Cara ${answers[1].toLowerCase()}, estilo ${answers[2].toLowerCase()} y uso principal: ${answers[3].toLowerCase()}. Esto es lo que te recomendamos:`;
+
+    const recs = [frameStyles[answers[1]], vibeStyles[answers[2]], useStyles[answers[3]]];
+    const cardsHtml = recs.map(r => `
+      <div class="card p-6">
+        ${drawFrame(r)}
+        <h4 class="font-bold mt-3 mb-1">${r.name}</h4>
+        <p class="text-gray-400 text-sm">${r.why}</p>
+      </div>
+    `).join('');
+    document.getElementById('resultCards').innerHTML = cardsHtml;
+  }
+
+  // ---------- RESERVA ----------
+  const dayNames = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  const monthNames = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  let selectedDay = null;
+  let selectedTime = null;
+
+  const dayPicker = document.getElementById('dayPicker');
+  const today = new Date();
+  for(let i=1; i<=6; i++){
+    const d = new Date(today);
+    d.setDate(today.getDate() + i);
+    const label = `${dayNames[d.getDay()].slice(0,3)} ${d.getDate()} ${monthNames[d.getMonth()].slice(0,3)}`;
+    const full = `${dayNames[d.getDay()]} ${d.getDate()} de ${monthNames[d.getMonth()]}`;
+    const btn = document.createElement('div');
+    btn.className = 'day-card';
+    btn.innerHTML = `<div class="text-xs text-gray-500 uppercase">${dayNames[d.getDay()].slice(0,3)}</div><div class="font-bold text-lg">${d.getDate()}</div><div class="text-xs text-gray-500">${monthNames[d.getMonth()].slice(0,3)}</div>`;
+    btn.dataset.full = full;
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.day-card').forEach(c=>c.classList.remove('sel'));
+      btn.classList.add('sel');
+      selectedDay = full;
+      checkBookingReady();
+    });
+    dayPicker.appendChild(btn);
+  }
+
+  const allTimes = [
+    {t:'09:00', free:true}, {t:'09:30', free:false}, {t:'10:30', free:true},
+    {t:'11:15', free:true}, {t:'12:00', free:false}, {t:'13:00', free:true},
+    {t:'16:30', free:true}, {t:'17:15', free:false}, {t:'18:00', free:true},
+    {t:'18:45', free:true}
+  ];
+  const timePicker = document.getElementById('timePicker');
+  allTimes.forEach(slot=>{
+    const el = document.createElement('div');
+    el.className = 'timeslot' + (slot.free ? '' : ' disabled');
+    el.textContent = slot.free ? slot.t : `${slot.t} (ocupado)`;
+    if(slot.free){
+      el.addEventListener('click', ()=>{
+        document.querySelectorAll('.timeslot').forEach(s=>s.classList.remove('sel'));
+        el.classList.add('sel');
+        selectedTime = slot.t;
+        checkBookingReady();
+      });
+    }
+    timePicker.appendChild(el);
+  });
+
+  function checkBookingReady(){
+    const btn = document.getElementById('confirmBtn');
+    if(selectedDay && selectedTime){
+      btn.disabled = false;
+      btn.classList.remove('opacity-50','cursor-not-allowed');
+    } else {
+      btn.disabled = true;
+      btn.classList.add('opacity-50','cursor-not-allowed');
+    }
+  }
+
+  function confirmBooking(){
+    if(!selectedDay || !selectedTime) return;
+    document.getElementById('confDay').textContent = selectedDay;
+    document.getElementById('confTime').textContent = selectedTime;
+    document.getElementById('bookingForm').classList.add('hidden');
+    document.getElementById('bookingConfirmed').classList.remove('hidden');
+  }
+
+  function resetBooking(){
+    selectedDay = null;
+    selectedTime = null;
+    document.querySelectorAll('.day-card').forEach(c=>c.classList.remove('sel'));
+    document.querySelectorAll('.timeslot').forEach(c=>c.classList.remove('sel'));
+    checkBookingReady();
+    document.getElementById('bookingConfirmed').classList.add('hidden');
+    document.getElementById('bookingForm').classList.remove('hidden');
+  }
+</script>
+</body>
+</html>
